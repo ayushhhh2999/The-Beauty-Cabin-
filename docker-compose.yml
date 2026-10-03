@@ -1,0 +1,39 @@
+services:
+  app:
+    build: .
+    container_name: beauty-cabin-app
+    ports:
+      - "5000:80"
+    environment:
+      BEAUTY_CABIN_DB_HOST: db
+      BEAUTY_CABIN_DB_NAME: beauty_cabin_v2
+      BEAUTY_CABIN_DB_USER: beauty_user
+      BEAUTY_CABIN_DB_PASS: beauty_password
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    container_name: beauty-cabin-db
+    environment:
+      MYSQL_DATABASE: beauty_cabin_v2
+      MYSQL_USER: beauty_user
+      MYSQL_PASSWORD: beauty_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - beauty_cabin_db:/var/lib/mysql
+      - ./beauty-cabin/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./beauty-cabin/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  beauty_cabin_db:
