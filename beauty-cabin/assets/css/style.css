@@ -1,0 +1,107 @@
+:root {
+	--rose: #b84e63;
+	--dark: #26332f;
+	--gold: #b58c50;
+	--cream: #f8f7f2;
+	--ink: #26332f;
+	--muted: #65716c;
+	--line: #dce3dc;
+	--green: #2f6758;
+	--surface: #fff;
+}
+
+body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; }
+h1, h2, h3, .section-title { font-family: 'Playfair Display', Georgia, serif; }
+.section-title { color: var(--ink); }
+.bc-navbar { background: var(--dark); }
+.bc-navbar .navbar-brand { color: #e4c48d; }
+.btn-rose { background: var(--rose); color: #fff; }
+.btn-rose:hover { background: #963b50; color: #fff; }
+.btn-gold { background: var(--green); color: #fff; }
+.btn-gold:hover { background: #234f43; color: #fff; }
+.hero {
+	position: relative;
+	min-height: 520px;
+	display: grid;
+	align-items: center;
+	text-align: left;
+	background-image: linear-gradient(90deg, rgba(22, 34, 30, .82), rgba(22, 34, 30, .18)), url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=2200&q=85');
+	background-size: cover;
+	background-position: center 46%;
+}
+.hero h1 { max-width: 720px; font-size: 4.5rem; color: #fff; }
+.hero .lead { max-width: 560px; color: rgba(255,255,255,.86); }
+.eyebrow { color: var(--green); font-size: .75rem; font-weight: 700; letter-spacing: .12em; margin-bottom: .65rem; }
+.hero .eyebrow { color: #e4c48d; }
+.salon-image { min-height: 310px; background: url('https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1200&q=82') center 42% / cover; border-radius: 4px; }
+.contact-band { background: #e6eee7; }
+.contact-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; }
+.contact-grid a { color: var(--green); font-weight: 600; }
+.hours-list { display: grid; gap: 6px; }
+.hours-list > div { display: flex; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); padding: 6px 0; }
+.hours-list dt, .hours-list dd { margin: 0; }
+.service-card { border-radius: 4px; box-shadow: 0 10px 30px rgba(38,51,47,.08); }
+.service-icon { border-radius: 4px 4px 0 0; color: var(--green); background: linear-gradient(135deg, #dce8df, #f5e4dc); }
+.form-card, .management-form, .booking-panel, .booking-aside, .data-surface, .empty-state {
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 4px;
+	box-shadow: 0 12px 32px rgba(38,51,47,.055);
+}
+.form-card { padding: 36px; }
+.form-card.wide { max-width: 760px; }
+.form-control, .form-select { border-color: #cfd8d1; border-radius: 3px; min-height: 44px; }
+.form-control:focus, .form-select:focus { border-color: var(--green); box-shadow: 0 0 0 .2rem rgba(47,103,88,.14); }
+.btn { border-radius: 3px; }
+.data-surface { overflow: hidden; }
+.data-surface .table { --bs-table-bg: transparent; }
+.data-surface thead th { background: #edf2ed; color: #43534b; font-size: .76rem; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.data-surface td { vertical-align: middle; }
+.dashboard-heading, .section-heading { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+.dashboard-heading h1 { margin-bottom: .25rem; }
+.section-heading { margin-top: 2rem; }
+.section-heading a, .quick-links a { color: var(--green); font-weight: 600; text-decoration: none; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 12px; }
+.stat-tile { min-height: 112px; display: flex; flex-direction: column; justify-content: space-between; background: #e6eee7; border-left: 3px solid var(--green); padding: 16px; }
+.stat-tile span { color: var(--muted); font-size: .85rem; }
+.stat-tile strong { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 600; }
+.quick-links { display: flex; flex-wrap: wrap; gap: 10px 24px; border-top: 1px solid var(--line); padding-top: 18px; }
+.booking-heading { max-width: 680px; }
+.booking-layout { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(250px, .8fr); gap: 24px; align-items: start; }
+.booking-panel, .booking-aside, .management-form { padding: 26px; }
+.booking-aside { background: #e6eee7; box-shadow: none; }
+.booking-aside h2 { font-family: 'Playfair Display', Georgia, serif; }
+.booking-aside a { color: var(--green); font-weight: 600; }
+.earliest-result { padding: 16px; border: 1px solid var(--line); background: #f8faf7; }
+.management-layout { display: grid; grid-template-columns: minmax(280px, 390px) minmax(0, 1fr); gap: 22px; align-items: start; }
+.manager-form { max-width: 760px; }
+.service-check { display: inline-flex; align-items: center; gap: 8px; min-width: 150px; margin: 4px 12px 4px 0; }
+.filter-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; padding: 16px; background: var(--surface); border: 1px solid var(--line); }
+.filter-bar > div { min-width: 145px; }
+.action-cell { min-width: 230px; }
+.hours-grid { display: grid; gap: 8px; }
+.hours-row { display: grid; grid-template-columns: 1fr minmax(130px, .7fr) minmax(130px, .7fr) auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.hours-time { display: grid; gap: 4px; color: var(--muted); font-size: .8rem; }
+.hours-time input { border: 1px solid var(--line); border-radius: 3px; padding: 7px; }
+.empty-state { padding: 34px; text-align: center; }
+.schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
+.schedule-panel { padding: 18px; border: 1px solid var(--line); background: var(--surface); }
+.schedule-list { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.schedule-list li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+.schedule-list li > span { grid-column: 1; color: var(--muted); }
+.schedule-list li > .badge { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.bc-footer { background: var(--dark); }
+
+@media (max-width: 991px) {
+	.booking-layout, .management-layout, .contact-grid { grid-template-columns: 1fr; }
+	.management-form { max-width: none; }
+}
+
+@media (max-width: 575px) {
+	.hero { min-height: 440px; text-align: center; }
+	.hero h1 { font-size: 2.5rem; }
+	.form-card, .booking-panel, .booking-aside, .management-form { padding: 22px; }
+	.hours-row { grid-template-columns: 1fr 1fr; }
+	.hours-row > strong { grid-column: 1 / -1; }
+	.dashboard-heading { align-items: flex-start; flex-direction: column; }
+}
