@@ -15,9 +15,8 @@ require __DIR__ . '/includes/header.php';
         <?php foreach ($services as $s): ?>
             <div class="col-md-6 col-lg-4">
                 <div class="card service-card">
-                    <div class="service-icon">
-                        <span aria-hidden="true">✦</span>
-                    </div>
+                    <?php $serviceImage = !empty($s['image']) ? e($s['image']) : 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=900&q=80'; ?>
+                    <img src="<?= $serviceImage ?>" class="service-thumb" alt="<?= e($s['name']) ?>" loading="lazy">
                     <div class="card-body d-flex flex-column">
                         <h5><?= e($s['name']) ?></h5>
                         <p class="text-muted small"><?= e($s['description']) ?></p>

@@ -15,29 +15,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $description = trim($_POST['description'] ?? '');
         $price = $_POST['price'] ?? '';
         $duration = filter_var($_POST['duration_minutes'] ?? null, FILTER_VALIDATE_INT);
+        $image = trim($_POST['image'] ?? '');
         $status = ($_POST['status'] ?? '') === 'INACTIVE' ? 'INACTIVE' : 'ACTIVE';
         if ($name === '' || mb_strlen($name) > 100) $errors[] = 'Service name is required (maximum 100 characters).';
         if (!is_numeric($price) || (float)$price < 0 || (float)$price > 1000000) $errors[] = 'Enter a valid service price.';
         if (!$duration || $duration > 600) $errors[] = 'Duration must be between 1 and 600 minutes.';
+        if ($image !== '' && !preg_match('/^(https?:\/\/[^\s]+|[A-Za-z0-9_\-]+\.(jpg|jpeg|png|webp|gif)(\?.*)?)$/i', $image)) {
+            $errors[] = 'Image must be a URL or a file name like facial.jpg.';
+        }
         if (mb_strlen($description) > 5000) $errors[] = 'Description is too long.';
         if (!$errors) {
             try {
                 if ($id) {
-                    $stmt = $pdo->prepare('UPDATE services SET name = ?, description = ?, price = ?, duration_minutes = ?, status = ? WHERE id = ?');
-                    $stmt->execute([$name, $description ?: null, $price, $duration, $status, $id]);
+                    $stmt = $pdo->prepare('UPDATE services SET name = ?, description = ?, price = ?, duration_minutes = ?, image = ?, status = ? WHERE id = ?');
+                    $stmt->execute([$name, $description ?: null, $price, $duration, $image ?: null, $status, $id]);
                 } else {
-                    $stmt = $pdo->prepare('INSERT INTO services (name, description, price, duration_minutes, status) VALUES (?, ?, ?, ?, ?)');
-                    $stmt->execute([$name, $description ?: null, $price, $duration, $status]);
+                    $stmt = $pdo->prepare('INSERT INTO services (name, description, price, duration_minutes, image, status) VALUES (?, ?, ?, ?, ?, ?)');
+                    $stmt->execute([$name, $description ?: null, $price, $duration, $image ?: null, $status]);
                 }
                 flash('success', $id ? 'Service updated.' : 'Service added.');
                 redirect($returnPath);
             } catch (PDOException $ex) {
                 error_log('Service save failed: ' . $ex->getMessage());
                 $errors[] = 'That service name is already in use or could not be saved.';
-                $editing = compact('id', 'name', 'description', 'price', 'duration', 'status');
+                $editing = compact('id', 'name', 'description', 'price', 'duration', 'image', 'status');
             }
         } else {
-            $editing = compact('id', 'name', 'description', 'price', 'duration', 'status');
+            $editing = compact('id', 'name', 'description', 'price', 'duration', 'image', 'status');
         }
     } elseif ($action === 'toggle' && $id > 0) {
         $pdo->prepare("UPDATE services SET status = IF(status = 'ACTIVE', 'INACTIVE', 'ACTIVE') WHERE id = ?")->execute([$id]);
@@ -57,12 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($editing === null && isset($_GET['edit'])) {
-    $stmt = $pdo->prepare('SELECT id, name, description, price, duration_minutes AS duration, status FROM services WHERE id = ?');
+    $stmt = $pdo->prepare('SELECT id, name, description, price, duration_minutes AS duration, image, status FROM services WHERE id = ?');
     $stmt->execute([(int)$_GET['edit']]);
     $editing = $stmt->fetch() ?: null;
 }
 $services = $pdo->query('SELECT * FROM services ORDER BY name')->fetchAll();
-$form = $editing ?? ['id' => 0, 'name' => '', 'description' => '', 'price' => '', 'duration' => '', 'status' => 'ACTIVE'];
+$form = $editing ?? ['id' => 0, 'name' => '', 'description' => '', 'price' => '', 'duration' => '', 'image' => '', 'status' => 'ACTIVE'];
 $pageTitle = 'Manage services';
 require __DIR__ . '/header.php';
 ?>
@@ -76,6 +80,7 @@ require __DIR__ . '/header.php';
             <label class="form-label" for="service-name">Name</label><input id="service-name" class="form-control mb-3" name="name" maxlength="100" value="<?= e($form['name']) ?>" required>
             <label class="form-label" for="service-description">Description</label><textarea id="service-description" class="form-control mb-3" name="description" rows="4" maxlength="5000"><?= e($form['description']) ?></textarea>
             <div class="row g-3"><div class="col-6"><label class="form-label" for="service-price">Price (₹)</label><input id="service-price" type="number" min="0" max="1000000" step="0.01" class="form-control" name="price" value="<?= e($form['price']) ?>" required></div><div class="col-6"><label class="form-label" for="service-duration">Minutes</label><input id="service-duration" type="number" min="1" max="600" class="form-control" name="duration_minutes" value="<?= e($form['duration']) ?>" required></div></div>
+            <label class="form-label mt-3" for="service-image">Image URL</label><input id="service-image" class="form-control mb-3" name="image" value="<?= e($form['image']) ?>" placeholder="https://images.unsplash.com/...">
             <label class="form-label mt-3" for="service-status">Status</label><select id="service-status" name="status" class="form-select mb-3"><option value="ACTIVE" <?= $form['status'] === 'ACTIVE' ? 'selected' : '' ?>>Active</option><option value="INACTIVE" <?= $form['status'] === 'INACTIVE' ? 'selected' : '' ?>>Inactive</option></select>
             <button class="btn btn-rose">Save service</button> <?php if ($form['id']): ?><a class="btn btn-outline-secondary" href="<?= e(url($returnPath)) ?>">Cancel</a><?php endif; ?>
         </form>

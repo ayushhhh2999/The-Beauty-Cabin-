@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!ctype_digit((string)$duration) || (int)$duration < 5 || (int)$duration > 600) {
             $errors[] = 'Duration must be 5 to 600 minutes.';
         }
-        if ($image !== '' && !preg_match('/^[A-Za-z0-9_\-]+\.(jpg|jpeg|png|webp|gif)$/i', $image)) {
-            $errors[] = 'Image must be a file name like facial.jpg (placed in assets/images).';
+        if ($image !== '' && !preg_match('/^(https?:\/\/[^\s]+|[A-Za-z0-9_\-]+\.(jpg|jpeg|png|webp|gif)(\?.*)?)$/i', $image)) {
+            $errors[] = 'Image must be an image URL or a file name like facial.jpg (placed in assets/images).';
         }
 
         if (!$errors) {

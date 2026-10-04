@@ -41,7 +41,8 @@ h1, h2, h3, .section-title { font-family: 'Playfair Display', Georgia, serif; }
 .hours-list > div { display: flex; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); padding: 6px 0; }
 .hours-list dt, .hours-list dd { margin: 0; }
 .service-card { border-radius: 4px; box-shadow: 0 10px 30px rgba(38,51,47,.08); }
-.service-icon { border-radius: 4px 4px 0 0; color: var(--green); background: linear-gradient(135deg, #dce8df, #f5e4dc); }
+.service-card { overflow: hidden; }
+.service-thumb { display: block; width: 100%; height: 220px; object-fit: cover; background: linear-gradient(135deg, #dce8df, #f5e4dc); }
 .form-card, .management-form, .booking-panel, .booking-aside, .data-surface, .empty-state {
 	background: var(--surface);
 	border: 1px solid var(--line);
